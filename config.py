@@ -31,9 +31,9 @@ class Config:
         DIRECTORY_PATH: The relative path to the directory containing static files.
             Defaults to "../static/".
         FILE_NAME: The name of the original CSV file to be processed. Defaults to
-            "en.openfoodfacts.org.products.csv".
+            "dataset/en.openfoodfacts.org.products.csv".
         OUTPUT_NAME: The name of the output CSV file after cleaning. Defaults to
-            'openfoodfact_clean.csv'.
+            'dataset/openfoodfact_clean.csv'.
         NUTRI_OK: A list of valid nutriscore grades. Defaults to ["a", "b", "c", "d",
             "e"].
         COUNTRIES_EN_COL: The name of the column containing country information in English.
@@ -52,9 +52,9 @@ class Config:
     DB_FULL_PATH = 'instance/' + DB_NAME
     TABLE_NAME = "produits"
 
-    ORIGINAL_CSV_NAME = "en.openfoodfacts.org.products.csv"
-    CLEANED_CSV_NAME = "openfoodfact_clean.csv"
-    CLEANED_100G_CSV_NAME = "100g_clean.csv"
+    ORIGINAL_CSV_NAME = "dataset/en.openfoodfacts.org.products.csv"
+    CLEANED_CSV_NAME = "dataset/openfoodfact_clean.csv"
+    CLEANED_100G_CSV_NAME = "dataset/100g_clean.csv"
     ORIGINAL_CSV_FULL_PATH = APP_STATIC_PATH + ORIGINAL_CSV_NAME
     CLEANED_CSV_FULL_PATH = APP_STATIC_PATH + CLEANED_CSV_NAME
 

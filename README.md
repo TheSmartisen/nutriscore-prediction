@@ -1,57 +1,85 @@
 
-# Projet NutriScore Prediction
+# Nutri-Score Prediction Project
 
-Ce projet est une application Flask conçue pour prédire le NutriScore d'aliments en se basant sur des données nutritionnelles. Il inclut un modèle d'IA entraîné pour classer les aliments selon leur score nutritionnel, des routes API, et une interface utilisateur web.
+Ce projet permet de prédire le Nutri-Score d'un produit alimentaire en fonction de ses informations nutritionnelles. Il fournit une interface utilisateur pour entrer les informations du produit et voir le Nutri-Score prédit. Le projet inclut également une API pour effectuer des prédictions de Nutri-Score.
 
-## Structure du projet
+## Fonctionnalités
 
-- `config.py` : fichier de configuration de l'application.
-- `requirements.txt` : dépendances nécessaires pour exécuter l'application.
-- `run.py` : script principal pour lancer l'application.
-- `app/` : répertoire principal de l'application contenant les modules suivants :
-  - `ai-model/` : contient le modèle ML (`model.pkl`), les encodages des colonnes et le label encoder.
-  - `modules/` : contient les modules Python pour la création de l'IA, le logging et l'exploration des données.
-  - `notebook/` : inclut un notebook pour l'exploration initiale des données (`Notebook - NutriScore.ipynb`).
-  - `routes/` : contient les routes Flask (`api_routes.py` pour les API, `main_routes.py` pour les routes de base).
-  - `static/` : contient les ressources statiques (images, icônes).
-  - `templates/` : fichiers HTML pour le rendu des pages (`base.html`, `prediction_form.html`).
-- `tests/` : contient les tests unitaires pour les modèles d'IA et les routes de l'application.
+- **Formulaire de prédiction** : Entrer les informations nutritionnelles pour obtenir un Nutri-Score prédit.
+- **Affichage du résultat** : Voir le Nutri-Score sous forme d'image et de texte.
+- **API de prédiction** : Faire des prédictions via une requête API.
+
+## Capture d'écran
+
+### Formulaire de prédiction
+
+![Formulaire de prédiction](app/static/images/screenshot-form.PNG)
+
+### Résultat de prédiction
+
+![Résultat de prédiction](app/static/images/screenshot-result.PNG)
 
 ## Installation
 
-1. Clonez le dépôt et accédez au répertoire :
+1. Clonez le dépôt :
+
    ```bash
-   git clone https://github.com/TheSmartisen/nutriscore-prediction.git
+   git clone git@github.com:TheSmartisen/nutriscore-prediction.git
    cd nutriscore-prediction
    ```
 
 2. Installez les dépendances :
+
    ```bash
    pip install -r requirements.txt
    ```
 
-## Utilisation
+3. Exécutez l'application :
 
-1. Lancez l'application :
    ```bash
    python run.py
    ```
 
-2. Accédez à l'interface utilisateur via `http://localhost:5000`.
+## Utilisation
 
-## Tests
+Accédez à `http://localhost:5000` dans votre navigateur pour utiliser l'interface utilisateur et prédire un Nutri-Score.
 
-Pour exécuter les tests, utilisez la commande suivante :
-```bash
-python -m unittest discover -s tests
+### API
+
+L'API de prédiction est disponible à l'URL suivante :
+
+**Endpoint** : `/api/v1/predict-nutriscore`
+
+**Méthode** : `POST`
+
+**Données d'entrée** (JSON) :
+```json
+{
+    "pnns_groups_1": "Beverages",
+    "energy_100g": 42.0,
+    "fat_100g": 0.0,
+    "saturated_fat_100g": 0.0,
+    "trans_fat_100g": 0.0,
+    "cholesterol_100g": 0.0,
+    "carbohydrates_100g": 10.6,
+    "sugars_100g": 10.6,
+    "fiber_100g": 0.0,
+    "proteins_100g": 0.0,
+    "salt_100g": 0.01,
+    "sodium_100g": 0.004,
+    "calcium_100g": 0.0,
+    "iron_100g": 0.0,
+    "fruits_vegetables_nuts_estimate_from_ingredients_100g": 0.0
+}
 ```
 
-## Auteur
-
-Développé par Patrick.
+**Exemple de réponse** :
+```json
+{
+    "predicted_score": "B"
+}
+```
 
 ## Licence
 
-Ce projet est sous licence MIT. Voir le fichier `LICENSE` pour plus de détails.
-
-Ce `README.md` donne un aperçu clair du projet, des étapes d'installation, d'utilisation et des tests, tout en mentionnant les principaux fichiers et répertoires. N'hésitez pas à adapter les descriptions en fonction de vos besoins !
+Ce projet est sous licence MIT. Voir le fichier [LICENSE](LICENSE) pour plus de détails.
