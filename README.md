@@ -1,4 +1,4 @@
-```markdown
+
 # Projet NutriScore Prediction
 
 Ce projet est une application Flask conçue pour prédire le NutriScore d'aliments en se basant sur des données nutritionnelles. Il inclut un modèle d'IA entraîné pour classer les aliments selon leur score nutritionnel, des routes API, et une interface utilisateur web.
