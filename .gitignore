@@ -1,2 +1,3 @@
 /data/requests/predictions.csv
 /.venv/
+__pycache__/
