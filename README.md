@@ -53,6 +53,5 @@ Développé par Patrick.
 ## Licence
 
 Ce projet est sous licence MIT. Voir le fichier `LICENSE` pour plus de détails.
-```
 
 Ce `README.md` donne un aperçu clair du projet, des étapes d'installation, d'utilisation et des tests, tout en mentionnant les principaux fichiers et répertoires. N'hésitez pas à adapter les descriptions en fonction de vos besoins !
