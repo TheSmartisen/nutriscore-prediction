@@ -10,22 +10,8 @@ services:
       - ./data:/data  # Volume pour sauvegarder les données de prédiction
     environment:
       - DATA_PATH=/data/requests  # Chemin du dossier de sauvegarde des données dans le conteneur
-    depends_on:
-      - db  # Dépendance vers le service de base de données (facultatif)
     command: flask run --host=0.0.0.0 --port=5000
 
-  db:
-    image: postgres:13
-    container_name: postgres_db
-    environment:
-      POSTGRES_USER: user
-      POSTGRES_PASSWORD: password
-      POSTGRES_DB: nutriscore
-    volumes:
-      - postgres_data:/var/lib/postgresql/data
-    ports:
-      - "5432:5432"
-
 volumes:
-  postgres_data:
+  data:
     driver: local
