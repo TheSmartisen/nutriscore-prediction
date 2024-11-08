@@ -21,8 +21,8 @@ Ce projet est une application Flask conçue pour prédire le NutriScore d'alimen
 
 1. Clonez le dépôt et accédez au répertoire :
    ```bash
-   git clone <URL_DU_DEPOT>
-   cd nom_du_projet
+   git clone https://github.com/TheSmartisen/nutriscore-prediction.git
+   cd nutriscore-prediction
    ```
 
 2. Installez les dépendances :
