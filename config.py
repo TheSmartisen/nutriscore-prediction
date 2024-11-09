@@ -1,4 +1,7 @@
 import os
+from dotenv import load_dotenv
+
+load_dotenv()
 
 class Config:
     """
@@ -138,3 +141,4 @@ class Config:
     COUNTRIES_EN_COL = "countries_en"
     COUNTRIES_EN_API_URL = "https://restcountries.com/v3.1/all"
     UNKNOWN_STR = "Unknown"
+    DATABASE_URL = os.getenv("DATABASE_URL")

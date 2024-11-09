@@ -1,186 +1,133 @@
+# Nutriscore Prediction Project
 
-# Nutri-Score Prediction Project
+Ce projet est une application Flask qui permet de faire des prédictions de Nutri-Score et de stocker les résultats en base de données PostgreSQL. Il utilise Docker pour faciliter l’installation et le déploiement.
 
-Ce projet permet de prédire le Nutri-Score d'un produit alimentaire en fonction de ses informations nutritionnelles. Il fournit une interface utilisateur pour entrer les informations du produit et voir le Nutri-Score prédit. Le projet inclut également une API pour effectuer des prédictions de Nutri-Score.
+## Prérequis
 
-## Fonctionnalités
-
-- **Formulaire de prédiction** : Entrer les informations nutritionnelles pour obtenir un Nutri-Score prédit.
-- **Affichage du résultat** : Voir le Nutri-Score sous forme d'image et de texte.
-- **API de prédiction** : Faire des prédictions via une requête API.
-
-## Capture d'écran
-
-### Formulaire de prédiction
-
-![Formulaire de prédiction](app/static/images/screenshot-form.PNG)
-
-### Résultat de prédiction
-
-![Résultat de prédiction](app/static/images/screenshot-result.PNG)
+- [Docker](https://www.docker.com/get-started) et [Docker Compose](https://docs.docker.com/compose/install/) installés
+- Connaissances de base en Python et SQL
 
 ## Installation
 
-1. Clonez le dépôt :
+### 1. Cloner le dépôt
 
-   ```bash
-   git clone git@github.com:TheSmartisen/nutriscore-prediction.git
-   cd nutriscore-prediction
-   ```
+Clonez ce projet sur votre machine :
 
-2. Installez les dépendances :
-
-   ```bash
-   pip install -r requirements.txt
-   ```
-
-3. Exécutez l'application :
-
-   ```bash
-   python run.py
-   ```
-
-## Utilisation de Docker
-
-Ce projet est configuré pour être exécuté dans un environnement Docker. Voici les étapes pour construire et exécuter le projet dans des conteneurs Docker.
-
-### Prérequis
-
-Assurez-vous d'avoir Docker et Docker Compose installés sur votre machine.
-
-### Étapes pour exécuter l'application avec Docker
-
-1. **Construire l'image Docker** :
-
-   Depuis la racine du projet, exécutez la commande suivante pour construire l'image Docker :
-
-   ```bash
-   docker-compose build
-   ```
-
-2. **Exécuter l'application** :
-
-   Une fois l'image construite, lancez l'application avec Docker Compose :
-
-   ```bash
-   docker-compose up
-   ```
-
-   Cela démarrera le conteneur `web` et montera le dossier local `./data` dans le conteneur sous `/data`, permettant de sauvegarder les données de prédiction de manière persistante.
-
-3. **Accéder à l'application** :
-
-   L'application sera accessible depuis votre navigateur à l'adresse suivante :
-
-   ```
-   http://localhost:5000
-   ```
-
-### Fichiers Docker
-
-- **Dockerfile** : Définit l'image Docker pour le projet, en installant les dépendances et en configurant l'application pour qu'elle puisse être exécutée dans un conteneur.
-- **docker-compose.yml** : Définit le service `web` avec un volume monté pour la persistance des données et des variables d'environnement pour configurer le chemin des données.
-- **.dockerignore** : Liste les fichiers et dossiers à ignorer lors de la création de l'image Docker afin de réduire sa taille et d'optimiser le processus de build.
-
----
-
-### Exemple de Dockerfile
-
-Le `Dockerfile` configure l'image pour exécuter une application Flask. Voici le contenu de base de votre fichier :
-
-```Dockerfile
-# Utilise une image Python officielle
-FROM python:3.8-slim
-
-# Définit le répertoire de travail
-WORKDIR /app
-
-# Copie le fichier requirements et installe les dépendances
-COPY requirements.txt .
-RUN pip install -r requirements.txt
-
-# Copie le reste des fichiers du projet dans le conteneur
-COPY . .
-
-# Définit la commande par défaut
-CMD ["flask", "run", "--host=0.0.0.0", "--port=5000"]
+```bash
+git clone https://github.com/TheSmartisen/nutriscore-prediction.git
+cd nutriscore-prediction
 ```
 
-### Exemple de docker-compose.yml
+### 2. Configurer les Variables d’Environnement
 
-Le fichier `docker-compose.yml` configure le service pour que le conteneur de l'application Flask puisse accéder aux données via un volume monté :
+Créez un fichier `.env` à la racine du projet avec les informations suivantes :
 
-```yaml
-version: '3.8'
-
-services:
-  web:
-    build: .
-    container_name: nutriscore_prediction
-    ports:
-      - "5000:5000"
-    volumes:
-      - ./data:/data  # Volume pour sauvegarder les données de prédiction
-    environment:
-      - DATA_PATH=/data/requests  # Chemin du dossier de sauvegarde des données dans le conteneur
-    command: flask run --host=0.0.0.0 --port=5000
+```env
+POSTGRES_USER=monutilisateur
+POSTGRES_PASSWORD=monmotdepasse
+POSTGRES_DB=ma_base_de_donnees
+DATABASE_URL=postgresql://monutilisateur:monmotdepasse@db:5432/ma_base_de_donnees
 ```
 
-### .dockerignore
+Assurez-vous que le fichier `.env` est ajouté dans le `.gitignore` pour protéger les informations sensibles.
 
-Le fichier `.dockerignore` exclut les fichiers inutiles pour le conteneur afin de garder l'image légère. Exemple de `.dockerignore` :
+### 3. Lancer les Conteneurs
 
-```
-__pycache__
-*.pyc
-*.pyo
-*.pyd
-.env
-data/
+Pour démarrer les conteneurs (Flask, PostgreSQL), exécutez la commande suivante :
+
+```bash
+docker-compose up --build
 ```
 
-En suivant ces instructions, vous pourrez facilement construire et exécuter l'application en utilisant Docker. Cela garantit un environnement stable et reproductible pour le projet Nutri-Score Prediction.
+Cette commande crée et lance les conteneurs définis dans le fichier `docker-compose.yml`.
 
-## Utilisation
+### 4. Création des Tables dans PostgreSQL
 
-Accédez à `http://localhost:5000` dans votre navigateur pour utiliser l'interface utilisateur et prédire un Nutri-Score.
+Une fois les conteneurs lancés, suivez ces étapes pour créer les tables nécessaires dans PostgreSQL.
 
-### API
+#### a. Connexion à PostgreSQL dans le Conteneur
 
-L'API de prédiction est disponible à l'URL suivante :
+Connectez-vous au conteneur PostgreSQL avec :
 
-**Endpoint** : `/api/v1/predict-nutriscore`
-
-**Méthode** : `POST`
-
-**Données d'entrée** (JSON) :
-```json
-{
-    "pnns_groups_1": "Beverages",
-    "energy_100g": 42.0,
-    "fat_100g": 0.0,
-    "saturated_fat_100g": 0.0,
-    "trans_fat_100g": 0.0,
-    "cholesterol_100g": 0.0,
-    "carbohydrates_100g": 10.6,
-    "sugars_100g": 10.6,
-    "fiber_100g": 0.0,
-    "proteins_100g": 0.0,
-    "salt_100g": 0.01,
-    "sodium_100g": 0.004,
-    "calcium_100g": 0.0,
-    "iron_100g": 0.0,
-    "fruits_vegetables_nuts_estimate_from_ingredients_100g": 0.0
-}
+```bash
+docker exec -it postgres_db psql -U $POSTGRES_USER -d $POSTGRES_DB
 ```
 
-**Exemple de réponse** :
-```json
-{
-    "predicted_score": "B"
-}
+#### b. Création des Tables
+
+Dans le client PostgreSQL, exécutez les commandes suivantes pour créer les tables `products` et `logs_request` :
+
+```sql
+CREATE TABLE products (
+    code BIGINT PRIMARY KEY,
+    url TEXT,
+    product_name VARCHAR(255),
+    quantity VARCHAR(50),
+    brands VARCHAR(255),
+    categories TEXT,
+    countries_en VARCHAR(255),
+    nutriscore_score NUMERIC,
+    nutriscore_grade CHAR(1),
+    image_url TEXT,
+    pnns_groups_1 VARCHAR(100),
+    pnns_groups_2 VARCHAR(100),
+    fat_100g NUMERIC,
+    saturated_fat_100g NUMERIC,
+    trans_fat_100g NUMERIC,
+    cholesterol_100g NUMERIC,
+    carbohydrates_100g NUMERIC,
+    sugars_100g NUMERIC,
+    fiber_100g NUMERIC,
+    proteins_100g NUMERIC,
+    salt_100g NUMERIC,
+    sodium_100g NUMERIC,
+    calcium_100g NUMERIC,
+    iron_100g NUMERIC,
+    fruits_vegetables_nuts_estimate_from_ingredients_100g NUMERIC,
+    energy_100g NUMERIC
+);
+
+CREATE TABLE logs_request (
+    id SERIAL PRIMARY KEY,
+    timestamp TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    params JSONB,
+    predicted_score VARCHAR(10),
+    status_code INT
+);
 ```
 
-## Licence
+#### c. Quitter le Client PostgreSQL
 
-Ce projet est sous licence MIT. Voir le fichier [LICENSE](LICENSE) pour plus de détails.
+Tapez `\q` pour quitter le client PostgreSQL.
+
+### 5. Initialiser la Base de Données avec des Données Initiales
+
+Si le projet nécessite de charger un fichier de données initial comme `openfoodfacts_clean.csv`, exécutez le script correspondant dans le conteneur Flask pour charger les données :
+
+```bash
+docker exec -it flask_app python app/modules/load_openfoodfacts_data.py
+```
+
+### 6. Tester l’API
+
+Pour tester que l’application fonctionne correctement, vous pouvez envoyer une requête à l'API de prédiction.
+
+Exemple de requête (remplacez les paramètres `param1` et `param2` par ceux attendus par l’API) :
+
+```bash
+curl -X POST http://localhost:5000/api/v1/predict -H "Content-Type: application/json" -d '{"param1": "value1", "param2": "value2"}'
+```
+
+### Dépannage
+
+- **Erreur de connexion à PostgreSQL** : Assurez-vous que le conteneur PostgreSQL est en cours d’exécution et que les informations dans `.env` sont correctes.
+- **Erreur de montage de volume** : Vérifiez que les dossiers sont correctement montés dans `docker-compose.yml`, surtout si vous avez du mal à accéder au fichier `openfoodfacts_clean.csv`.
+
+### Résumé
+
+Ce projet utilise Flask, PostgreSQL, et Docker pour fournir une application de prédiction de Nutri-Score. Les instructions ci-dessus permettent de configurer et démarrer l'application, de créer les tables dans PostgreSQL et de charger les données initiales.
+
+### Prochaines Étapes
+
+- Intégrer un système de tests pour vérifier le bon fonctionnement de l'API.
+- Ajouter des fonctionnalités pour gérer l'authentification ou les permissions, si nécessaire.

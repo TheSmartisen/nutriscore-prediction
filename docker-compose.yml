@@ -3,15 +3,32 @@ version: '3.8'
 services:
   web:
     build: .
-    container_name: nutriscore_prediction
+    container_name: flask_app
     ports:
       - "5000:5000"
-    volumes:
-      - ./data:/data  # Volume pour sauvegarder les données de prédiction
+    env_file:
+      - .env
     environment:
-      - DATA_PATH=/data/requests  # Chemin du dossier de sauvegarde des données dans le conteneur
+      - DATABASE_URL=${DATABASE_URL}
+    depends_on:
+      - db
+    volumes:
+      - ./data:/data  # Monte le dossier 'data' de l'hôte dans '/data' dans le conteneur
     command: flask run --host=0.0.0.0 --port=5000
+    develop:
+      watch:
+        - path: ./app
+          target: /usr/src/app
+          action: sync
+
+  db:
+    image: postgres:13
+    container_name: postgres_db
+    env_file:
+      - .env
+    ports:
+      - "5432:5432"
 
 volumes:
-  data:
+  postgres_data:
     driver: local

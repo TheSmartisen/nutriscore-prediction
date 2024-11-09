@@ -1,3 +1,4 @@
 /data/requests/predictions.csv
 /.venv/
 __pycache__/
+.env
