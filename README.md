@@ -177,7 +177,7 @@ L'API de prédiction est disponible à l'URL suivante :
 **Exemple de réponse** :
 ```json
 {
-    "predicted_score": "B"
+    "predicted_score": "b"
 }
 ```
 
