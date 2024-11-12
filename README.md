@@ -108,16 +108,6 @@ Si le projet nécessite de charger un fichier de données initial comme `openfoo
 docker exec -it flask_app python app/modules/load_openfoodfacts_data.py
 ```
 
-### 6. Tester l’API
-
-Pour tester que l’application fonctionne correctement, vous pouvez envoyer une requête à l'API de prédiction.
-
-Exemple de requête (remplacez les paramètres `param1` et `param2` par ceux attendus par l’API) :
-
-```bash
-curl -X POST http://localhost:5000/api/v1/predict -H "Content-Type: application/json" -d '{"param1": "value1", "param2": "value2"}'
-```
-
 ### Dépannage
 
 - **Erreur de connexion à PostgreSQL** : Assurez-vous que le conteneur PostgreSQL est en cours d’exécution et que les informations dans `.env` sont correctes.
