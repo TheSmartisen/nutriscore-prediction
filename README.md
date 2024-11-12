@@ -124,6 +124,10 @@ services:
     environment:
       - DATA_PATH=/data/requests  # Chemin du dossier de sauvegarde des données dans le conteneur
     command: flask run --host=0.0.0.0 --port=5000
+
+volumes:
+  data:
+    driver: local
 ```
 
 ### .dockerignore
