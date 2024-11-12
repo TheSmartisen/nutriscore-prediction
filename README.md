@@ -126,8 +126,3 @@ curl -X POST http://localhost:5000/api/v1/predict -H "Content-Type: application/
 ### Résumé
 
 Ce projet utilise Flask, PostgreSQL, et Docker pour fournir une application de prédiction de Nutri-Score. Les instructions ci-dessus permettent de configurer et démarrer l'application, de créer les tables dans PostgreSQL et de charger les données initiales.
-
-### Prochaines Étapes
-
-- Intégrer un système de tests pour vérifier le bon fonctionnement de l'API.
-- Ajouter des fonctionnalités pour gérer l'authentification ou les permissions, si nécessaire.
